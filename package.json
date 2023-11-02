@@ -1,0 +1,23 @@
+{
+  "name": "comahue-backend",
+  "version": "1.0.0",
+  "description": "Servicio API para servir la información de plataforma PLENA, utilizanción de moodle_client para leer los datos.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -- dotenv bin/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Departamento de la tecnologia de la información",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "moodle-client": "^0.5.2",
+    "nodemailer": "^6.9.7"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.0.1"
+  }
+}
