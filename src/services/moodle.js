@@ -1,5 +1,7 @@
 const moodle_client = require("moodle-client");
 const config = require('../config/config.js');
+const RedisServer = require('../services/redis');
+
 
 const wwwroot = config.MOODLE_URL;
 const token = config.MOODLE_TOKEN;
@@ -18,8 +20,7 @@ class MoodleService {
     }
 
     constructor() {
-        console.log(config.URL);
-        console.log(wwwroot);
+
     }
 
     async getCourses() {
@@ -75,6 +76,13 @@ class MoodleService {
 
                 }
             }
+            const data = {
+                cantProfesores: this.dataPlatform.profesores.length,
+                cantEstudiantes: this.dataPlatform.estudiantes.length,
+                cursosDisponibles: courses.length
+            }
+            const key = 'dataPlatform';
+            await RedisServer.set(key, JSON.stringify(data));
             return courses;
         } catch (error) {
             // Manejar el error de la llamada a la API aquí
@@ -115,6 +123,7 @@ class MoodleService {
     }
 
     async getImageCourse(courseId) {
+
         try {
             const client = await this.moodle;
             const info = await client.call({
@@ -146,12 +155,11 @@ class MoodleService {
                     courseid: courseId
                 }
             });
-
             users.forEach(u => {
-                if (!(this.dataPlatform.estudiantes.includes(u.fullname)) || u.roles.some(role => role.shortname === 'estudiante')) {
+                if (!(this.dataPlatform.estudiantes.includes(u.fullname)) || u.roles.some(role => role.shortname === 'student')) {
                     this.dataPlatform.estudiantes.push(u.fullname);
                 }
-                if (!(this.dataPlatform.profesores.includes(u.fullname)) || u.roles.some(role => role.shortname === 'editorprofesor')) {
+                if (!(this.dataPlatform.profesores.includes(u.fullname)) || u.roles.some(role => role.shortname === 'editingteacher')) {
                     this.dataPlatform.profesores.push(u.fullname);
                 }
             });

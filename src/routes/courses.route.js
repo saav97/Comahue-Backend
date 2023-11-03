@@ -20,4 +20,17 @@ router.get('/courses', async (req, res) => {
     }
 })
 
+router.get('/data', async (req, res)=>{
+    try {
+        dataPlatform = await courseController.getDataPlatform();
+        res.status(200).json({
+            dataPlatform
+        })
+    } catch (error) {
+        res.status(500).json({
+            msg:'Error obteniendo los datos de la platforma '+error
+        })
+    }
+})
+
 module.exports = router;
