@@ -58,10 +58,12 @@ class MoodleService {
                         return '<img' + p1 + `src="${config.MOODLE_URL}/pluginfile.php/` + p2 + '/course/summary/' + p3 + '"';
                     });
 
-                    /*let regex = /(https?:\/\/[^\s]+\.pdf)/g;
-                    let newUrl = 'https://plena.uncoma.edu.ar/webservice/pluginfile.php/$1/course/summary/$1?token=6bb5994be3e1ae3783ec0405b83e12b6';
-                    descripcion = descripcion.replace(regex, newUrl);*/
+                    descripcion = descripcion.replace(/<a([^>]+)href="https:\/\/plena.uncoma.edu.ar\/webservice\/pluginfile.php\/(\d+)\/course\/summary\/\d+\/([^"]+)"/gi, function (match, p1, p2, p3) {
+                        return '<a' + p1 + `href="${config.MOODLE_URL}/pluginfile.php/` + p2 + '/course/summary/' + p3 + '"';
+                    });
 
+
+                   
                     if (img) {
                         courses.push({
                             id: course.id,
