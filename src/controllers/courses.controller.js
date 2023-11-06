@@ -25,6 +25,17 @@ class CourseControllers {
 
     }
 
+    async getCourseInfo(id){
+        try {
+            const data = await this.moodleservice.getInfoCourse(id);
+            return data;
+
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+    }
+
     async getDataPlatform() {
 
         const key = 'dataPlatform';

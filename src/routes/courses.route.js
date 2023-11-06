@@ -33,4 +33,18 @@ router.get('/data', async (req, res)=>{
     }
 })
 
+router.get('/course/:id', async (req, res)=>{
+    try {
+        const id =  req.params.id;
+        const data = await courseController.getCourseInfo(id);
+        res.status(200).json({
+            data
+        })
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error al obtener información del curso: '+error
+        })
+    }
+})
+
 module.exports = router;

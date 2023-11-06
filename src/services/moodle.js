@@ -63,7 +63,7 @@ class MoodleService {
                     });
 
 
-                   
+
                     if (img) {
                         courses.push({
                             id: course.id,
@@ -170,6 +170,69 @@ class MoodleService {
         } catch (error) {
             throw error;
         }
+    }
+
+    async getCourseTheme(courseId) {
+        try {
+            const client = await this.moodle;
+            const theme = await client.call({
+                wsfunction: 'core_course_get_contents',
+                args: {
+                    courseid: courseId
+                }
+            });
+
+            const temas = [];
+            if (typeof (theme)) {
+                theme.forEach((contenido) => {
+                    temas.push(contenido.name)
+                })
+            }
+
+            return temas;
+
+        } catch (error) {
+            console.log(error);
+            return
+        }
+    }
+
+    async getEnrrolledCourse(courseId) {
+        try {
+            const client = await this.moodle;
+            const users = await client.call({
+                wsfunction: 'core_enrol_get_enrolled_users',
+                args: {
+                    courseid: courseId
+                }
+            })
+
+            const teacher = users.filter(user => user.roles.some(role => role.shortname == 'editingteacher'));
+            //const students = users.filter(user => user.roles.some(role => role.shortname == 'students'));
+            teacher.forEach(t => {
+                if (!(this.dataPlatform.profesores.includes(t.fullname))) {
+                   this. dataPlatform.profesores.push(t.fullname);
+                }
+            });
+
+            return teacher;
+
+        } catch (error) {
+            console.log(error);
+            return
+        }
+    }
+
+    async getInfoCourse(courseId) {
+        let temas = await this.getCourseTheme(courseId)
+        let profesores = await this.getEnrrolledCourse(courseId);
+
+        const data = {
+            //cant,
+            temas,
+            profesores
+        }
+        return data;
     }
 }
 
