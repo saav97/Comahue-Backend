@@ -1,6 +1,6 @@
 const config = require('../config/config');
-
 const Redis = require('ioredis');
+
 const redis = new Redis({
     host:config.REDIS_HOST,
     port:config.REDIS_PORT
@@ -20,6 +20,5 @@ class RedisServer{
         return await redis.del(key);
     }
 }
-
 
 module.exports = RedisServer;

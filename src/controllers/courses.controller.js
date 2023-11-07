@@ -4,6 +4,7 @@ const RedisServer = require('../services/redis');
 class CourseControllers {
     constructor() {
         this.moodleservice = new MoodleService();
+        this.updateCacheInterval = 900000;
     }
 
     async getCourses() {
@@ -50,6 +51,7 @@ class CourseControllers {
         return (JSON.parse(cacheData));
 
     }
+
 }
 
 

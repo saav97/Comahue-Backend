@@ -22,9 +22,9 @@ router.get('/courses', async (req, res) => {
 
 router.get('/data', async (req, res)=>{
     try {
-        dataPlatform = await courseController.getDataPlatform();
+        data = await courseController.getDataPlatform();
         res.status(200).json({
-            dataPlatform
+            data
         })
     } catch (error) {
         res.status(500).json({
