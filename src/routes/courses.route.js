@@ -47,4 +47,17 @@ router.get('/course/:id', async (req, res)=>{
     }
 })
 
+router.get('/courses/fetch', async (req, res)=>{
+    try {
+        const courses = await courseController.getCoursesFetch();
+        res.status(200).json({
+            courses
+        })
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error al obtener información del curso: '+error
+        })
+    }
+})
+
 module.exports = router;

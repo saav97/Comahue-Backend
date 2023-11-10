@@ -18,7 +18,7 @@ class CourseControllers {
         }
         else {
             // si no hay datos en la cache, realiza una operación costosa
-            const courses = await this.moodleservice.getCourses();
+            const courses = await this.moodleservice.getCoursesFetch();
 
             await RedisServer.set(key, JSON.stringify(courses));
             return courses;
@@ -50,6 +50,15 @@ class CourseControllers {
 
         return (JSON.parse(cacheData));
 
+    }
+
+    async getCoursesFetch(){
+        try {
+            const courses = await this.moodleservice.getCoursesFetch();
+            return courses;
+        } catch (error) {
+            console.error('error al acceder a la API: ', error);
+        }
     }
 
 }
