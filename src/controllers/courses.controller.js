@@ -44,7 +44,7 @@ class CourseControllers {
         let cacheData = await RedisServer.get(key);
 
         if (!cacheData) {
-            await this.getCourses();
+            await this.getCoursesFetch();
             cacheData = await RedisServer.get(key);
         }
 
